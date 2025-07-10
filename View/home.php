@@ -1,3 +1,22 @@
+<?php
+
+require_once('../vendor/autoload.php');
+use Model\Imcs;
+
+$imc = new Imcs();
+
+if($_SERVER['REQUEST_METHOD'] === 'POST'){
+    if(isset($_POST['weight'], $_POST['height'])){
+        $weight = $_POST['weight'];
+        $height = $_POST['height'];
+        $result = $weight/($height*$height);
+        $imc->createImc($weight,$height,$result);
+    }
+}
+
+?>
+
+
 
 <!DOCTYPE html>
 <html lang="pt-br">
