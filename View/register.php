@@ -1,9 +1,9 @@
 <?php
 require_once('../vendor/autoload.php');
 
-use Model\User;
+use Controller\UserController;
 
-$user = new User();
+$user = new UserController();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
