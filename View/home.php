@@ -1,23 +1,22 @@
 <?php
 
 require_once('../vendor/autoload.php');
-use Model\Imcs;
+use Controller\ImcController;
 
-$imc = new Imcs();
+$imcController = new ImcController();
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(isset($_POST['weight'], $_POST['height'])){
         $weight = $_POST['weight'];
         $height = $_POST['height'];
-        $result = $weight/($height*$height);
-        $imc->createImc($weight,$height,$result);
+        // $result = round($weight/($height*$height),2);
+        $imcController->calculateImc($weight,$height);
+        var_dump($imcController);
+        $result = null;
     }
 }
 
 ?>
-
-
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
