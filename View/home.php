@@ -4,15 +4,16 @@ require_once('../vendor/autoload.php');
 use Controller\ImcController;
 
 $imcController = new ImcController();
+$imcResult = null;
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
     if(isset($_POST['weight'], $_POST['height'])){
         $weight = $_POST['weight'];
         $height = $_POST['height'];
-        // $result = round($weight/($height*$height),2);
-        $imcController->calculateImc($weight,$height);
-        var_dump($imcController);
-        $result = null;
+        $imcResult = $imcController->calculateImc($weight,$height);
+        if($imcResult['BMIrange'] != 'O peso e a altura devem conter valores positivos.') {
+            $imcController->saveIMC($weight, $height, $imcResult['imc']);
+        }
     }
 }
 
@@ -128,6 +129,13 @@ if($_SERVER['REQUEST_METHOD'] === 'POST'){
                 <div class="result">
                     <div class="result__info">
                         <!-- RESULTADO DO IMC -->
+                        <?php if ($imcResult):?>
+                            <p>Seu IMC é: <?php echo $imcResult['imc'] ?? '';?></p>
+                            <p>Categoria: <?php echo $imcResult['BMIrange'];?></p>
+                        <?php else:?>
+                            <i class="bi bi-calculator"></i>
+                            <p>Preencha os dados ao lado para ver o resultado</p>
+                        <?php endif;?>
                     </div>
                 </div>
             </div>
