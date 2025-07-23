@@ -32,7 +32,8 @@ class User {
             $stmt->execute();
             return $stmt->fetch(PDO::FETCH_ASSOC);
         }catch (PDOException $error){
-
+            echo 'Erro ao executar o comando' . $error->getMessage();
+            return false;
         }
     }
 
