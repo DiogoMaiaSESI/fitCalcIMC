@@ -44,21 +44,21 @@ class ImcTest extends TestCase {
 
         $imcResult = $this->imcController->calculateImc(-68, -1.68);
         $this->assertEquals('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
+
+        $imcResult = $this->imcController->calculateImc(0, 0);
+        $this->assertEquals('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
     }
 
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_shouldnt_be_able_to_calculate_bmi_with_null_or_empty_inputs () {
         $imcResult = $this->imcController->calculateImc(null, 0);
-        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIresult']);
+        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
 
         $imcResult = $this->imcController->calculateImc(0, null);
-        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIresult']);
+        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
 
         $imcResult = $this->imcController->calculateImc(null, null);
-        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIresult']);
-
-        $imcResult = $this->imcController->calculateImc(0, 0);
-        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIresult']);
+        $this->assertEquals('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
     }
 
     // OBTER O IMC E CLASSIFICAR
@@ -71,11 +71,68 @@ class ImcTest extends TestCase {
 
         $this->assertStringNotContainsString('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
         $this->assertStringNotContainsString('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
+
+        $this->assertEquals('Peso normal', $imcResult['BMIrange']);
+
+        $weight = 54;
+        $height = 1.78;
+
+        $imcResult = $this->imcController->calculateImc($weight, $height);
+
+        $this->assertStringNotContainsString('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
+        $this->assertStringNotContainsString('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
+
+        $this->assertEquals('Baixo peso', $imcResult['BMIrange']);
+
+
+        $weight = 70;
+        $height = 1.65;
+
+        $imcResult = $this->imcController->calculateImc($weight, $height);
+
+        $this->assertStringNotContainsString('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
+        $this->assertStringNotContainsString('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
+
+        $this->assertEquals('Sobrepeso', $imcResult['BMIrange']);
+
+
+        $weight = 90;
+        $height = 1.70;
+
+        $imcResult = $this->imcController->calculateImc($weight, $height);
+
+        $this->assertStringNotContainsString('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
+        $this->assertStringNotContainsString('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
+
+        $this->assertEquals('Obesidade grau I', $imcResult['BMIrange']);
+
+
+        $weight = 102;
+        $height = 1.68;
+
+        $imcResult = $this->imcController->calculateImc($weight, $height);
+
+        $this->assertStringNotContainsString('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
+        $this->assertStringNotContainsString('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
+
+        $this->assertEquals('Obesidade grau II', $imcResult['BMIrange']);
+
+
+        $weight = 108;
+        $height = 1.62;
+
+        $imcResult = $this->imcController->calculateImc($weight, $height);
+
+        $this->assertStringNotContainsString('O peso e a altura devem conter valores positivos.', $imcResult['BMIrange']);
+        $this->assertStringNotContainsString('Por favor, informe peso e altura para obter o seu IMC.', $imcResult['BMIrange']);
+
+        $this->assertEquals('Obesidade grau III', $imcResult['BMIrange']);
+
     }
 
     // SALVAR O IMC
-    #[\PHPUnit\Framework\Attributes\Test]
-    public function it_should_be_able_to_save_bmi() {}
+    // #[\PHPUnit\Framework\Attributes\Test]
+    // public function it_should_be_able_to_save_bmi() {}
 }
 
 ?>
