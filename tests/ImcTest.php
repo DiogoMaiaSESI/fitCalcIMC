@@ -131,8 +131,13 @@ class ImcTest extends TestCase {
     }
 
     // SALVAR O IMC
-    // #[\PHPUnit\Framework\Attributes\Test]
-    // public function it_should_be_able_to_save_bmi() {}
+    #[\PHPUnit\Framework\Attributes\Test]
+    public function it_should_be_able_to_save_bmi() {
+        $weight = 70;
+        $height = 1.7;
+        $bmiResult = 24.22;
+        $imcResult = $this->imcController->saveIMC($weight, $height, $bmiResult);
+    }
 }
 
 ?>
