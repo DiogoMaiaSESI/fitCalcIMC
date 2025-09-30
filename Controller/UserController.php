@@ -5,7 +5,7 @@ use Model\User;
 use Exception;
 class UserController {
     private $userModel;
-    public function __construct(){
+    public function __construct(User $userModel){
         $this->userModel = new User();
     }
     public function registerUser($user_fullname, $email, $password){

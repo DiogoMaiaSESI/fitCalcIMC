@@ -4,15 +4,22 @@ use Controller\ImcController;
 
 use PHPUnit\Framework\TestCase;
 
+use Model\Imcs;
+
 class ImcTest extends TestCase {
 
     // IRÁ FAZER REFERENCIA A CLASSE IMCCONTROLLER
     // RESPONSÁVEL POR REALIZAR A COMUNIUCAÇÃO COM O BANCO DE DADOS
     // E A LÓGICA DA APLICAÇÃO
     private $imcController;
+    // ATRIBUTO PARA O FAKE DO BANCO DE DADOS
+    private $mockImcModel;
 
     protected function setUp(): void {
-        $this->imcController = new ImcController();
+        // CRIO O FAKE DO BANCO DE DADOS
+        $this->mockImcModel = $this->createMock(Imcs::class);
+        // PASSO ESSE FAKE PARA O CONTROLLER, ASSIM ME PERMITE UTILIZAR AS MESMAS FUNCIONALIDADES, SÓ QUE SEM MODIFICAR O BANCO DE DADOS REAL
+        $this->imcController = new ImcController($this->mockImcModel);
     }
 
 
@@ -133,10 +140,14 @@ class ImcTest extends TestCase {
     // SALVAR O IMC
     #[\PHPUnit\Framework\Attributes\Test]
     public function it_should_be_able_to_save_bmi() {
-        $weight = 70;
-        $height = 1.7;
-        $bmiResult = 24.22;
-        $imcResult = $this->imcController->saveIMC($weight, $height, $bmiResult);
+        $imcResult = $this->imcController->calculateImc(68, 1.68);
+        $this->assertStringNotContainsString("Por favor, informe peso e altura para obter o seu IMC.", $imcResult["BMIrange"]);
+
+        $this->mockImcModel->expects($this->once())->method('createImc')->with($this->equalTo(68),$this->equalTo(1.68))->willReturn(true);
+
+        $result = $this->imcController->saveIMC(68, 1.68, $imcResult['imc']);
+
+        $this->assertTrue($result); 
     }
 }
 
