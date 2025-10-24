@@ -11,7 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $user_fullname = $_POST['user_fullname'];
         $user_email = $_POST['email'];
         $user_password = $_POST['password'];
-        $user->registerUser($user_fullname,$user_email, $user_password);
+        $user->createUser($user_fullname,$user_email, $user_password);
     }
 }
 

@@ -4,7 +4,7 @@ use Model\Imcs;
 use Exception;
 class ImcController {
     private $imcsModel;
-    public function __construct(Imcs $imcsModel) {
+    public function __construct() {
         $this->imcsModel = new Imcs();
     }
     // CALCULO E CLASSIFICAÇÃO

@@ -9,9 +9,9 @@ class UserController
 {
     private $userModel;
 
-    public function __construct(User $userModel)
+    public function __construct()
     {
-        $this->userModel = $userModel;
+        $this->userModel = new User();
     }
 
     // REGISTRO DE USUÁRIO
